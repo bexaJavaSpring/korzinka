@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-public class MarketAction {
+public class GroupAction {
 
     Scanner scannerStr = new Scanner(System.in);
     Scanner scannerInt = new Scanner(System.in);

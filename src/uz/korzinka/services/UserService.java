@@ -7,7 +7,7 @@ import uz.korzinka.interfaceBuilder.builder.UserBuilder;
 import uz.korzinka.model.history.History;
 import uz.korzinka.model.product.Product;
 import uz.korzinka.model.user.User;
-import uz.korzinka.services.actions.MarketAction;
+import uz.korzinka.services.actions.GroupAction;
 import uz.korzinka.services.actions.UserAction;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class UserService implements UserInterface {
 
     public UserService() {
         UserBuilder<User> admin = User::new;
-        users.add(admin.create(userId, "Bexruz", "0000", UserRole.ADMIN, 0));
+        users.add(admin.create(userId, "Bekhruz", "0000", UserRole.ADMIN, 10000));
     }
 
     @Override
@@ -56,9 +56,9 @@ public class UserService implements UserInterface {
     }
 
     public void buyProduct(User user, Product product) {
-        MarketAction marketAction = new MarketAction();
+        GroupAction groupAction = new GroupAction();
         Product product1 =
-                marketAction.buyProduct(product, user, users);
+                groupAction.buyProduct(product, user, users);
 
         if (product1 != null) {
             History history = new History(userHistoryId, user.getId(), product1);
