@@ -8,6 +8,6 @@ public interface UserInterface {
 
     User signIn();
 
-    void userList();
+    String userList();
 
 }

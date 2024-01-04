@@ -61,6 +61,7 @@ public class FrontEndAction {
         boolean userMenu = true;
         while (userMenu) {
             System.out.println("1=> Buy Products. 2=> Balance. 3=>History. 4.Logout");
+            System.out.print("Choose option: ");
             int userOption = scannerInt.nextInt();
             switch (userOption) {
                 case 1:
@@ -93,7 +94,8 @@ public class FrontEndAction {
         boolean adminactive = true;
         while (adminactive) {
             System.out.println("1=> Product List. 2=> Product Settings. 3=> UserList");
-            System.out.println("4=> SellingHistory. 5=>UserHistory. 6=>Balance. 7=>Logout");
+            System.out.println("4=> SellingHistory. 5=>UserHistory. 6=>Balance. 7=> Access admin role. 8=>Logout");
+            System.out.print("Choose option: ");
             int adminOption = scannerInt.nextInt();
             switch (adminOption) {
                 case 1: {
@@ -104,6 +106,7 @@ public class FrontEndAction {
                     boolean productSettings = true;
                     while (productSettings) {
                         System.out.println("1=>Add Product. 2=>EditProductPrice. 3=>AddQuantityProduct. 4=>Remove Product. 5=>Back");
+                        System.out.print("Choose option: ");
                         int productOption = scannerInt.nextInt();
                         switch (productOption) {
                             case 1: {
@@ -132,17 +135,25 @@ public class FrontEndAction {
                     userService.userList();
                     break;
                 }
-                case 4:
+                case 4: {
                     userService.sellingHistory();
                     break;
-                case 5:
+                }
+                case 5: {
                     userService.sellingHistoryByUser(user);
                     break;
+                }
                 case 6: {
                     System.out.println("Balance : " + user.getBalance());
                     break;
                 }
                 case 7: {
+                    String s = userService.userList();
+                    if (s != null)
+                        userService.accessAdminRole();
+                    break;
+                }
+                case 8: {
                     adminactive = false;
                     break;
                 }

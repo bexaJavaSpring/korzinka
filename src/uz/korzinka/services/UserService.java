@@ -12,10 +12,11 @@ import uz.korzinka.services.actions.UserAction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class UserService implements UserInterface {
-
+    Scanner scanner = new Scanner(System.in);
     List<User> users = new ArrayList<>();
     int userId = 1001;
 
@@ -24,8 +25,9 @@ public class UserService implements UserInterface {
     int userHistoryId = 5000;
 
     public UserService() {
+        int i = 0;
         UserBuilder<User> admin = User::new;
-        users.add(admin.create(userId, "Bekhruz", "0000", UserRole.ADMIN, 10000));
+        users.add(admin.create(userId + (i++), "b", "0", UserRole.ADMIN, 10000));
     }
 
     @Override
@@ -50,9 +52,24 @@ public class UserService implements UserInterface {
     }
 
     @Override
-    public void userList() {
-        System.out.println("| username |  role");
-        users.forEach(user -> System.out.println("| " + user.getUsername() + "  " + user.getRole()));
+    public String userList() {
+        String userList = "";
+        int i = 0;
+        if (users.isEmpty()) {
+            System.out.println("User not found!");
+            return null;
+        }
+
+        for (User user : users) {
+            String str = "";
+            if (user.getRole().equals(UserRole.USER)) {
+                str = i + ")" + "| id: " + user.getId() + "| userName: " + user.getUsername() + " | roleName: " + user.getRole() + " |";
+                System.out.println(str);
+                userList += str;
+                i++;
+            }
+        }
+        return userList;
     }
 
     public void buyProduct(User user, Product product) {
@@ -95,6 +112,23 @@ public class UserService implements UserInterface {
         }
         return null;
     }
+
+    public void accessAdminRole() {
+        System.out.print("Select user(id): ");
+        int id = scanner.nextInt();
+        for (User user : users) {
+            if (user.getId() == id) {
+                if (user.getRole().equals(UserRole.USER)) {
+                    user.setRole(UserRole.ADMIN);
+                    UserBuilder<User> admin = User::new;
+                    users.add(admin.create(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.getBalance()));
+                    System.out.println("Successfully established Admin role!");
+                    return;
+                }
+            }
+        }
+    }
+
 
     public void sellingHistoryByUser(User user) {
         if (user.getRole().equals(UserRole.ADMIN)) {
